@@ -13,8 +13,8 @@
     "build": "tsc",
     "dev": "tsx watch src/index.ts",
     "start": "node dist/index.js",
-    "typecheck": "tsc --noEmit",
-    "test": "node --test --import tsx 'src/**/*.test.ts'"
+    "typecheck": "tsc --noEmit -p tsconfig.test.json",
+    "test": "node --test --import tsx test/*.test.ts"
   },
   "dependencies": {
     "fastify": "^4.28.0",

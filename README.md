@@ -1,5 +1,8 @@
 # routy-edge
 
+[![CI](https://github.com/routy-app/routy-edge/actions/workflows/ci.yml/badge.svg)](https://github.com/routy-app/routy-edge/actions/workflows/ci.yml)
+[![Docker Pulls](https://img.shields.io/docker/pulls/routyapp/routy-edge.svg)](https://hub.docker.com/r/routyapp/routy-edge)
+
 > Self-hosted edge proxy for [Routy](https://routy.io) redirect links. Run it on your own infrastructure, on your own domains. A Routy outage never costs you a click — and your domain reputation stays on *your* domain, not a shared one.
 
 ---
@@ -42,10 +45,22 @@ visitor ──► your-domain.com ──► Caddy ──► routy-edge ──►
 git clone https://github.com/routy-app/routy-edge.git
 cd routy-edge
 cp .env.example .env   # set ROUTY_API_KEY and DOMAINS
-docker compose up -d
+docker compose up -d   # pulls routyapp/routy-edge:latest from Docker Hub
 ```
 
+No build step needed — `docker compose` pulls the pre-built image straight from [Docker Hub](https://hub.docker.com/r/routyapp/routy-edge). The `Dockerfile` is included only for forks who want to modify and rebuild.
+
 Point your domain's A record at the box. Caddy fetches TLS on first request via Let's Encrypt on-demand. You're live.
+
+### Pinning a version
+
+`:latest` tracks the default branch. For production, pin to a specific release:
+
+```bash
+EDGE_IMAGE=routyapp/routy-edge:0.1.0 docker compose up -d
+```
+
+Available tags: `latest`, semver (`0.1.0`, `0.1`, `0`), and `sha-<short>` for every build.
 
 ---
 

@@ -15,6 +15,7 @@ services:
     restart: unless-stopped
 
   edge:
+    image: ${EDGE_IMAGE:-routyapp/routy-edge:latest}
     build: .
     environment:
       ROUTY_BASE_URL: ${ROUTY_BASE_URL}
