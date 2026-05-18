@@ -145,6 +145,26 @@ PRs welcome. The codebase is small and intentionally boring — Fastify routes, 
 
 Forks are also a first-class use case. If you need this to do something we don't support, fork it. We just ask that you don't ship modified contract code under the same name.
 
+### Development
+
+```bash
+npm ci
+npm test          # node:test, no DB required for current suite
+npm run typecheck
+npm run dev       # tsx watch
+```
+
+### Releasing (maintainers)
+
+The Docker Hub publish runs **only on `v*.*.*` tag pushes** — `main` pushes do not publish. To cut a release:
+
+```bash
+scripts/release.sh patch    # or minor / major / explicit X.Y.Z
+git push origin main vX.Y.Z
+```
+
+The tag push triggers `.github/workflows/release.yml`, which builds multi-arch (`linux/amd64,linux/arm64`) and publishes `routyapp/routy-edge:X.Y.Z`, `:X.Y`, `:X`, and `:latest`. See [CHANGELOG.md](./CHANGELOG.md).
+
 ---
 
 ## License
