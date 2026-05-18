@@ -22,7 +22,7 @@ If you fork `routy-edge` or implement your own client, this is the document you 
 | `GET`  | `/route`       | Resolve a redirect (replaces the visitor request) |
 | `POST` | `/route/replay`| Replay clicks queued during a fallback window     |
 
-Base URL is configured per-tenant (typically `https://route.<your-region>.routy.io`).
+Base URL is the Routy API root, currently `https://platform.routy.app/api`. The endpoints above are appended to that root.
 
 ---
 
@@ -418,8 +418,8 @@ Only return non-`200` when the edge itself cannot serve traffic:
 
 **Request**
 ```
-GET /route?pr=v1&slug=summer-sale&cid=mc_8821 HTTP/1.1
-Host: route.routy.io
+GET /api/route?pr=v1&slug=summer-sale&cid=mc_8821 HTTP/1.1
+Host: platform.routy.app
 X-Routy-Edge-Auth: sk_edge_live_xxx
 X-Routy-Edge-Client: routy-edge/1.2.3 (node20)
 Idempotency-Key: 9b2f1c84-...

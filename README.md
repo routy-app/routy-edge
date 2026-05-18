@@ -1,9 +1,10 @@
 # routy-edge
 
-[![CI](https://github.com/routy-app/routy-edge/actions/workflows/ci.yml/badge.svg)](https://github.com/routy-app/routy-edge/actions/workflows/ci.yml)
+[![Tests](https://github.com/routy-app/routy-edge/actions/workflows/test.yml/badge.svg)](https://github.com/routy-app/routy-edge/actions/workflows/test.yml)
+[![Build](https://github.com/routy-app/routy-edge/actions/workflows/build.yml/badge.svg)](https://github.com/routy-app/routy-edge/actions/workflows/build.yml)
 [![GHCR](https://img.shields.io/badge/ghcr.io-routy--app%2Frouty--edge-blue?logo=github)](https://github.com/routy-app/routy-edge/pkgs/container/routy-edge)
 
-> Self-hosted edge proxy for [Routy](https://routy.io) redirect links. Run it on your own infrastructure, on your own domains. A Routy outage never costs you a click — and your domain reputation stays on *your* domain, not a shared one.
+> Self-hosted edge proxy for [Routy](https://routy.app) redirect links. Run it on your own infrastructure, on your own domains. A Routy outage never costs you a click — and your domain reputation stays on *your* domain, not a shared one.
 
 ---
 
@@ -70,7 +71,7 @@ All via env vars. Full list in `.env.example`; the ones you'll actually touch:
 
 | Variable               | Required | Default | Description                                              |
 |------------------------|----------|---------|----------------------------------------------------------|
-| `ROUTY_BASE_URL`       | yes      | —       | e.g. `https://route.routy.io`                             |
+| `ROUTY_BASE_URL`       | yes      | —       | e.g. `https://route.routy.app`                             |
 | `ROUTY_API_KEY`        | yes      | —       | Shared secret for the `pr=v1` contract                    |
 | `DOMAINS`              | yes      | —       | Comma-separated list, e.g. `mail.acme.com,promo.acme.com` |
 | `CLICK_LOG_MODE`       | no       | `failed`| `all` · `failed` · `none`                                  |

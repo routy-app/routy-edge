@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { loadConfig } from "../src/config.js";
 
 const REQUIRED = {
-  ROUTY_BASE_URL: "https://route.routy.io/",
+  ROUTY_BASE_URL: "https://platform.routy.app/api/",
   ROUTY_API_KEY: "sk_test",
   DOMAINS: "MAIL.example.com, promo.example.com",
   DATABASE_URL: "postgres://x/y",
@@ -40,7 +40,7 @@ test("loads with defaults applied", () => {
 test("strips trailing slash from base URL", () => {
   withEnv(REQUIRED, () => {
     const cfg = loadConfig();
-    assert.equal(cfg.routyBaseUrl, "https://route.routy.io");
+    assert.equal(cfg.routyBaseUrl, "https://platform.routy.app/api");
   });
 });
 
