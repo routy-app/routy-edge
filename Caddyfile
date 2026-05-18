@@ -1,0 +1,24 @@
+# On-demand TLS: any host pointed at this box gets a Let's Encrypt cert on first hit.
+# Restrict which hosts qualify to whatever's in $DOMAINS (comma-separated).
+{
+	on_demand_tls {
+		ask http://edge:8080/_internal/tls-check
+	}
+}
+
+# Catch-all site block. Caddy matches any incoming hostname and proxies to the edge.
+https:// {
+	tls {
+		on_demand
+	}
+	reverse_proxy edge:8080 {
+		header_up X-Forwarded-Host {host}
+		header_up X-Forwarded-Proto {scheme}
+		header_up X-Forwarded-For {remote_host}
+	}
+}
+
+# HTTP → HTTPS redirect, except ACME challenges
+http:// {
+	redir https://{host}{uri} permanent
+}

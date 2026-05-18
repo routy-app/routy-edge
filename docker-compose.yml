@@ -1,0 +1,56 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: routy
+      POSTGRES_PASSWORD: routy
+      POSTGRES_DB: routy_edge
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U routy -d routy_edge"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    restart: unless-stopped
+
+  edge:
+    build: .
+    environment:
+      ROUTY_BASE_URL: ${ROUTY_BASE_URL}
+      ROUTY_API_KEY: ${ROUTY_API_KEY}
+      DOMAINS: ${DOMAINS}
+      CLICK_LOG_MODE: ${CLICK_LOG_MODE:-failed}
+      CACHE_TTL_SECONDS: ${CACHE_TTL_SECONDS:-3600}
+      FALLBACK_TIMEOUT_MS: ${FALLBACK_TIMEOUT_MS:-800}
+      REPLAY_BATCH_SIZE: ${REPLAY_BATCH_SIZE:-500}
+      REPLAY_INTERVAL_MS: ${REPLAY_INTERVAL_MS:-30000}
+      DATABASE_URL: postgres://routy:routy@postgres:5432/routy_edge
+      PORT: 8080
+      LOG_LEVEL: ${LOG_LEVEL:-info}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    expose:
+      - "8080"
+    restart: unless-stopped
+
+  caddy:
+    image: caddy:2-alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      DOMAINS: ${DOMAINS}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    depends_on:
+      - edge
+    restart: unless-stopped
+
+volumes:
+  pg-data:
+  caddy-data:
+  caddy-config:
