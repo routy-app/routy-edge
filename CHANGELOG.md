@@ -19,4 +19,4 @@ stability guarantees.
 - `/_health` and `/_metrics` endpoints.
 - Smoke tests for render, cloaked, and config parsing.
 - GitHub Actions CI (typecheck, test, build, Dockerfile build).
-- GitHub Actions release workflow (multi-arch Docker Hub publish on tag push).
+- GitHub Actions release workflow (multi-arch GHCR publish on tag push).

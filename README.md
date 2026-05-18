@@ -1,7 +1,7 @@
 # routy-edge
 
 [![CI](https://github.com/routy-app/routy-edge/actions/workflows/ci.yml/badge.svg)](https://github.com/routy-app/routy-edge/actions/workflows/ci.yml)
-[![Docker Pulls](https://img.shields.io/docker/pulls/routyapp/routy-edge.svg)](https://hub.docker.com/r/routyapp/routy-edge)
+[![GHCR](https://img.shields.io/badge/ghcr.io-routy--app%2Frouty--edge-blue?logo=github)](https://github.com/routy-app/routy-edge/pkgs/container/routy-edge)
 
 > Self-hosted edge proxy for [Routy](https://routy.io) redirect links. Run it on your own infrastructure, on your own domains. A Routy outage never costs you a click — and your domain reputation stays on *your* domain, not a shared one.
 
@@ -48,19 +48,19 @@ cp .env.example .env   # set ROUTY_API_KEY and DOMAINS
 docker compose up -d   # pulls routyapp/routy-edge:latest from Docker Hub
 ```
 
-No build step needed — `docker compose` pulls the pre-built image straight from [Docker Hub](https://hub.docker.com/r/routyapp/routy-edge). The `Dockerfile` is included only for forks who want to modify and rebuild.
+No build step needed — `docker compose` pulls the pre-built image straight from the [GitHub Container Registry](https://github.com/routy-app/routy-edge/pkgs/container/routy-edge). The `Dockerfile` is included only for forks who want to modify and rebuild.
 
 Point your domain's A record at the box. Caddy fetches TLS on first request via Let's Encrypt on-demand. You're live.
 
 ### Pinning a version
 
-`:latest` tracks the default branch. For production, pin to a specific release:
+`:latest` tracks the most recent published release. For production, pin to an exact version:
 
 ```bash
-EDGE_IMAGE=routyapp/routy-edge:0.1.0 docker compose up -d
+EDGE_IMAGE=ghcr.io/routy-app/routy-edge:0.1.0 docker compose up -d
 ```
 
-Available tags: `latest`, semver (`0.1.0`, `0.1`, `0`), and `sha-<short>` for every build.
+Available tags: `latest`, semver (`0.1.0`, `0.1`, `0`). Images are built for `linux/amd64` and `linux/arm64`.
 
 ---
 
@@ -163,7 +163,11 @@ scripts/release.sh patch    # or minor / major / explicit X.Y.Z
 git push origin main vX.Y.Z
 ```
 
-The tag push triggers `.github/workflows/release.yml`, which builds multi-arch (`linux/amd64,linux/arm64`) and publishes `routyapp/routy-edge:X.Y.Z`, `:X.Y`, `:X`, and `:latest`. See [CHANGELOG.md](./CHANGELOG.md).
+The tag push triggers `.github/workflows/release.yml`, which builds multi-arch (`linux/amd64,linux/arm64`) and publishes `ghcr.io/routy-app/routy-edge:X.Y.Z`, `:X.Y`, `:X`, and `:latest`. Auth uses the built-in `GITHUB_TOKEN` — no secret setup needed.
+
+> **One-time setup after the first release:** GitHub packages default to private. After the first tag push, go to the package page and flip visibility to public so the world can `docker pull` without auth.
+
+See [CHANGELOG.md](./CHANGELOG.md).
 
 ---
 
